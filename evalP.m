@@ -1,5 +1,5 @@
 
-% Code to evaluate the outputs of the submitted code. The value of the objective function
+% Code to evaluate the output. The value of the objective function
 % will be written to a file. 
 
 clear all;
