@@ -1,7 +1,7 @@
 # Power Control and Link Sceduling
 
 The various parameters considered are obtained from the gains.csv and params.csv file. The gains.csv file contains the gain between every user pair, while the params.csv file consists of parameters such as :
-    n - Number of wireless users
+    n - Number of wireless users \n
     theta - SINR Threshold for decoding
     C - Weighting Parameter (Used to compute the objective function)
     N - Noise Power
