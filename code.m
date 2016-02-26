@@ -198,13 +198,25 @@ while(num_allocated_nodes <= n)
         end
     end
     [~,b] = size(S);
+    initial_size = b;
     a = 0;
     for i=1:b
         if(loc_i~=S(i)) %Checking if newly identified node to be added isn't already there
             a = a+1;
         end
     end
-    if(a==b)
+    b1 = 0;
+    a1 = 0;
+    if(last_set>1)
+        [~,b1] = size(A2{last_set-1});
+        S1 = A2{last_set-1};
+        for i=1:b1
+            if(loc_i~=S1(i))
+                a1 = a1+1;
+            end
+        end
+    end
+    if(a==b)&&(a1==b1)
         S = [S,loc_i];
     end
     a = 0;
@@ -213,7 +225,18 @@ while(num_allocated_nodes <= n)
             a = a+1;
         end
     end
-    if(a==b)
+    b1 = 0;
+    a1 = 0;
+    if(last_set>1)
+        [~,b1] = size(A2{last_set-1});
+        S1 = A2{last_set-1};
+        for j=1:b1
+            if(loc_j~=S1(j))
+                a1 = a1+1;
+            end
+        end
+    end
+    if(a==b)&&(a1==b1)
         if(loc_i~=loc_j)
             S = [S,loc_j];
         end
@@ -241,13 +264,33 @@ while(num_allocated_nodes <= n)
         Z(loc_j,loc_i) = inf;
     else
         last_set = last_set + 1;
+        tempS = S;
         S = [];
         if(loc_i==loc_j)
             temp_A{last_set} = loc_i;
             S = loc_i;
         else
-            temp_A{last_set} = [loc_i,loc_j];
-            S = [loc_i,loc_j];
+            a1 = 0;
+            a2 = 0;
+            b = initial_size;
+            for i=1:b
+                if(loc_i ~= tempS(i))
+                    a1 = a1+1;
+                end
+                if(loc_j ~= tempS(i))
+                    a2 = a2+1;
+                end
+            end
+            if (a1 == b)&&(a2==b)
+                S = [loc_i,loc_j];
+                temp_A{last_set} = [loc_i,loc_j];              
+            elseif (a1==b)
+                S = [S,loc_i];
+                temp_A{last_set} = [loc_i];
+            elseif (a2 == b)
+                S = [S,loc_j];
+                temp_A{last_set} = [loc_j];
+            end
         end
     end
 end
@@ -280,6 +323,8 @@ else
     k_final = k_method2;
     objFunc_final = objFunc_method2;
 end
+display(objFunc_method1);
+display(objFunc_method2);
 display('Optimal value of objective function');
 display(objFunc_final);
 [~,b] = size(P_final);
@@ -298,4 +343,3 @@ for i=1:b
     a = A_final{i};
     dlmwrite('partition.csv',a,'-append');
 end
-
