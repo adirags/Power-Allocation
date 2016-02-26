@@ -102,9 +102,11 @@ while(num_allocated_nodes<=n)
     else
         poor_choice_flag = 1;
     end
-    for i=1:b
-        if(P1(i)<=0)
-            poor_choice_flag = 1;
+    if(poor_choice_flag == 0)
+        for i=1:b
+            if(P1(i)<=0)
+                poor_choice_flag = 1;
+            end
         end
     end
     if(poor_choice_flag == 0)
@@ -123,7 +125,7 @@ end
 [~,b] = size(A);
 k = b;          %Number of Time Divided sets
 P_sum = 0;
-for i=1:3
+for i=1:k
     P1 = P{i};
     [a,~] = size(P1);
     for j=1:a
@@ -250,9 +252,11 @@ while(num_allocated_nodes <= n)
         poor_choice_flag = 1;
     end
     [a,b] = size(P1);
-    for i=1:b
-        if(P1(i)<=0)
-            poor_choice_flag = 1;
+    if(poor_choice_flag == 0)
+        for i=1:a
+            if(P1(i)<=0)
+                poor_choice_flag = 1;
+            end
         end
     end
     if(poor_choice_flag == 0)
@@ -337,7 +341,7 @@ for i=1:b
         P_write(a(j)) = p(j);
     end
 end
-csvwrite('pow.csv',P_write);
+dlmwrite('pow.csv',P_write,'precision',9);
 csvwrite('partition.csv',k_final);
 for i=1:b
     a = A_final{i};
